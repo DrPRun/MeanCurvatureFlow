@@ -7,10 +7,11 @@ from scipy import sparse
 
 # функция, которая создает матрицу смежности
 def adjacency_matrix(faces, vertex):
-    print('hello')
+    # print('hello')
     row = []
     col = []
     for fs in faces:
+        # print(fs[0], fs[1], fs[2], sep=', ', end="\n")
         row.append(fs[0])
         col.append(fs[1])
         row.append(fs[1])
@@ -26,11 +27,20 @@ def adjacency_matrix(faces, vertex):
         col.append(fs[0])
         row.append(fs[2])
     # print('row and col:', row ,  col)
-    data = [1.] * len(row)  # массив единиц, нужен для конструктора разреженной матрицы
+    data = [-1] * len(row)  # массив единиц, нужен для конструктора разреженной матрицы
     space_row = np.array(row)
     space_col = np.array(col)
     space_data = np.array(data)
+    # for r in space_data:
+    #     print(r, sep=', ', end='\n')
     adj_max = sparse.coo_matrix((space_data, (space_row, space_col)), shape=(vertex, vertex)).tocsc()
+    countvertex = vertex
+    for i in range(0, vertex):
+        for j in range(i, vertex):
+            if(adj_max[i,j] < 0):
+                adj_max[i,j] = adj_max[j,i] = countvertex
+                countvertex += 1
+    # print('out of smeg_matrix.py')
     return adj_max
 
 

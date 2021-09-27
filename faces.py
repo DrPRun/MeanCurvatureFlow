@@ -1,4 +1,3 @@
-import numpy as np
 class Faces(object):
 
     def __init__(self, a, b, c):
